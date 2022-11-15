@@ -1,0 +1,21 @@
+*** Settings ***
+Library           Selenium2Library
+Library            OperatingSystem
+#Test Teardown     Close All Browsers
+
+*** Variables ***
+${URL}    http://speedtest.ftp.otenet.gr/files/test100k.db
+${filename}    commons-lang3-3.12.0.pdf
+
+
+*** Test Cases ***
+Verify Download PDF works
+    ${system}=    Evaluate    platform.system()    platform
+    ${home_dir}=    Run Keyword If    '${system}' == "Windows"    Get Environment Variable    USERPROFILE
+    ...  ELSE    Get Environment Variable    HOME
+    ${download_dir}=    Set Variable    ${home_dir}/Downloads
+    Log To Console    ${download_dir}
+    @{files}=    List Files In Directory    ${download_dir}
+    Log To Console    ${files}
+    Open Browser    ${URL}    Chrome
+    
